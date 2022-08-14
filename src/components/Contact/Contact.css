@@ -1,0 +1,48 @@
+.form-wrapper{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+label{
+    margin-right: 15px;
+
+}
+
+.input-field{
+    width: 350px;
+    height: 40px;
+}
+
+.card{
+    padding: 30px 150px;
+    background-color: #F5F5F5;
+    box-shadow: 2px 8px 10px 2px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 20px;
+    
+    
+
+}
+
+.card__title{
+    color: #000000;
+    margin: 50px 0px;
+    text-shadow: 2px 2px #808080;
+    
+    
+
+}
+
+.btn-register{
+    margin-top: 20px;
+    box-shadow: 0 4px 4px 0px rgba(0,0,0,0.6);
+}
+
