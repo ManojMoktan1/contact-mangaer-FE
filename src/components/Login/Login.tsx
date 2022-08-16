@@ -2,13 +2,36 @@ import React from 'react'
 import 'antd/dist/antd.css';
 import { Button, Form, Input } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import loginInterface from '../../interfaces/loginInterface';
 import './Login.css'
+import Axios from '../../constants/axios'
+import { createInterceptors } from '../../utils/interceptor';
+
 
 const Login = () => {
-    const onFinish = (values: any) => {
-        console.log("logged in");
+    const navigate = useNavigate();
+    const onFinish = async (values: loginInterface) => {
+        try{
+            const res = await Axios("/login", {
+                method:"POST",
+                data: values,
+            });
+        if (res.data.data){
+            localStorage.setItem("access_token", res.data.data.access_token);
+            localStorage.setItem("id", res.data.data.id);
+            console.log(res.data.data);
+        
+        }
+        createInterceptors();
+        navigate('/contacts')
+
+    }catch (err){
+        console.log(err);
     }
+    
+}
+
     
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
