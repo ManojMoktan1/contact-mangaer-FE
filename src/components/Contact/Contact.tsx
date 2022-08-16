@@ -10,19 +10,54 @@ import {
 } from 'antd';
 
 import './Contact.css'
+import axios from '../../constants/axios';
+import { contactToCreate } from '../../interfaces/contactInterface';
+
+
 
 const Contact = () => {
+
+    
+
     const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
     const onFormLayoutChange = ({ disabled }: { disabled: boolean }) => {
       setComponentDisabled(disabled);
     };
 
-    const [value, setValue] = useState("no");
+    const [value, setValue] = useState("false");
 
     const onChange = (e: RadioChangeEvent) => {
         console.log('radio checked', e.target.value);
         setValue(e.target.value);
       };
+
+    const onFinish = async (values:contactToCreate) => {
+        
+
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(values.photograph[0].originFileObj);
+       fileReader.onload = () => {
+         axios('/contacts', {
+            method: 'POST',
+            data: {...values , photograph:fileReader.result, user_id:localStorage.getItem('id')},
+
+        }).then(res => console.log(res))
+       }
+
+
+}
+
+
+
+    const normFile = (e: any) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+          return e;
+        }
+        return e?.fileList;
+      };
+
+
   return (
     <div className='form-wrapper'>
         <div className='card'>
@@ -33,32 +68,33 @@ const Contact = () => {
             layout="horizontal"
             onValuesChange={onFormLayoutChange}
             disabled={componentDisabled}
+            onFinish={onFinish}
             >
-                <Form.Item label="Name">
-                    <Input className='input-field' />
+                <Form.Item label="Name" name='name'>
+                    <Input className='input-field'  />
                 </Form.Item>
 
-                <Form.Item label="Email">
-                    <Input className='input-field' />
+                <Form.Item label="Email" name='email'>
+                    <Input className='input-field'  />
                 </Form.Item>
 
-                <Form.Item label="Phone">
-                    <Input className='input-field' />
+                <Form.Item label="Phone" name='phone'>
+                    <Input className='input-field'  />
                 </Form.Item>
 
-                <Form.Item label="Address">
-                    <Input className='input-field' />
+                <Form.Item label="Address" name='address'>
+                    <Input className='input-field'  />
                 </Form.Item>
 
-                <Form.Item label="Add to favorites?">
-                    <Radio.Group onChange={onChange} value={value}>
-                        <Radio value="yes"> Yes </Radio>
-                        <Radio value="no"> No </Radio>
+                <Form.Item label="Add to favorites?" name='is_favourite_contact'>
+                    <Radio.Group onChange={onChange} value={value} >
+                        <Radio value="true"> Yes </Radio>
+                        <Radio value="false"> No </Radio>
                     </Radio.Group>
                 </Form.Item>
 
-                <Form.Item label="Photograph" valuePropName="fileList">
-                    <Upload action="/upload.do" listType="picture-card">
+                <Form.Item label="Photograph" valuePropName="fileList" name='photograph' getValueFromEvent={normFile} >
+                    <Upload action="/upload.do" listType="picture-card" >
                         <div>
                         <PlusOutlined />
                         <div style={{ marginTop: 8 }}>Upload</div>
@@ -84,12 +120,3 @@ const Contact = () => {
 
 export default Contact
 
-// id: number;
-// name: string;
-// email: string;
-// phone: string;
-// address: string;
-// photograph: string;
-// cloudinary_id: string;
-// is_favourite_contact: boolean;
-// user_id: number;

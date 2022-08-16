@@ -4,8 +4,14 @@ import { Button, Form, Input } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import '../Login/Login.css';
+import registerInterface from '../../interfaces/registerInterface';
+import axios from '../../constants/axios';
 
 const Register = () => {
+  const onFinish = async (values:registerInterface) => {
+    axios.post('/register', values).then(res => console.log(res)).catch(err => console.log(err))
+
+}
 
   return (
     <div className='wrapper'>
@@ -16,6 +22,7 @@ const Register = () => {
                 name="normal_login"
                 className="login-form"
                 initialValues={{ remember: true }}
+                onFinish={onFinish}
                 >
                 <Form.Item
                         name="email"
@@ -44,11 +51,11 @@ const Register = () => {
                     data-testid="password-input"
                     />
                 </Form.Item>
-
+{/* 
                 <Form.Item
                     name="confirm_password"
                     dependencies={['password']}
-                    hasFeedback
+                    // hasFeedback
                     rules={[
                         {
                           required: true,
@@ -71,7 +78,7 @@ const Register = () => {
                     placeholder="Confirm Password"
                     data-testid="password-input"
                     />
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button btn-login">
                     Sign Up
