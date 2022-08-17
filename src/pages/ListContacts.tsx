@@ -8,9 +8,7 @@ const ListContacts = () => {
   const [data, setData] = useState<contactInterface[]>([]);
   const id = localStorage.getItem("id");
 
-  //extra
   const [searchField, setSearchField] = useState("");
-  //   const[contacts, setContacts] = useState([]);
   const [filteredContacts, setFilterContacts] = useState<contactInterface[]>(
     []
   );
@@ -29,7 +27,6 @@ const ListContacts = () => {
       });
   }, []);
 
-  //extra
   useEffect(() => {
     const newFilteredContacts = data.filter((item) => {
       return item.name.toLocaleLowerCase().includes(searchField);

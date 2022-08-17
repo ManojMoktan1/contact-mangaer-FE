@@ -24,7 +24,6 @@ const Login = () => {
         localStorage.setItem("access_token", res.data.data.access_token);
         localStorage.setItem("id", res.data.data.id);
         localStorage.setItem("is_logged_in", "true");
-        console.log(res.data.data);
         dispatch(setIsUserLoggedIn(localStorage.getItem("is_logged_in")));
       }
       createInterceptors();

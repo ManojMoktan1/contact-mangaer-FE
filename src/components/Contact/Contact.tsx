@@ -16,7 +16,6 @@ const Contact = () => {
   const [value, setValue] = useState("false");
 
   const onChange = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
