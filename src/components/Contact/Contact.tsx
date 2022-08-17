@@ -6,8 +6,10 @@ import { Form, Input, Button, Radio, Upload } from "antd";
 import "./Contact.css";
 import axios from "../../constants/axios";
 import { contactToCreate } from "../../interfaces/contactInterface";
+import { useNavigate } from "react-router-dom";
 
 const Contact = () => {
+  const navigate = useNavigate();
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
   const onFormLayoutChange = ({ disabled }: { disabled: boolean }) => {
     setComponentDisabled(disabled);
@@ -32,6 +34,7 @@ const Contact = () => {
         },
       }).then((res) => console.log(res));
     };
+    navigate("/contacts");
   };
 
   const normFile = (e: any) => {

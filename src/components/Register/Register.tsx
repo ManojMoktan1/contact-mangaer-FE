@@ -2,12 +2,13 @@ import React from "react";
 import "antd/dist/antd.css";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../Login/Login.css";
 import registerInterface from "../../interfaces/registerInterface";
 import axios from "../../constants/axios";
 
 const Register = () => {
+  const navigate = useNavigate();
   const onFinish = async (values: registerInterface) => {
     const valuesToSend = {
       email: values.email,
@@ -17,6 +18,8 @@ const Register = () => {
       .post("/register", valuesToSend)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
+
+    navigate("/login");
   };
 
   return (
