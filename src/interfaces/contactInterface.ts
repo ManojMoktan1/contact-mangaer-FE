@@ -4,7 +4,7 @@ interface contactInterface{
     address: string;
     phone: string;
     email: string;
-    is_favourite_contact: boolean;
+    is_favourite_contact: boolean | string;
     photograph: any;
 
 }
