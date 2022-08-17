@@ -2,7 +2,7 @@ import React from "react";
 import "antd/dist/antd.css";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../Login/Login.css";
 import registerInterface from "../../interfaces/registerInterface";
 import axios from "../../constants/axios";

@@ -9,7 +9,6 @@ import contactInterface, {
   contactToCreate,
 } from "../../interfaces/contactInterface";
 import { useNavigate, useParams } from "react-router-dom";
-import { responsiveArray } from "antd/lib/_util/responsiveObserve";
 
 const ContactUpdate = () => {
   const navigate = useNavigate();
