@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../constants/axios";
 import contactInterface from "../interfaces/contactInterface";
-import './ListContacts.css'
+import "./ListContacts.css";
 
 const ListContacts = () => {
   const [data, setData] = useState<contactInterface[]>([]);
+  const id = localStorage.getItem("id");
 
   //extra
-  const [searchField, setSearchField] = useState('');
-//   const[contacts, setContacts] = useState([]);
-  const[filteredContacts, setFilterContacts] = useState<contactInterface[]>([]);
+  const [searchField, setSearchField] = useState("");
+  //   const[contacts, setContacts] = useState([]);
+  const [filteredContacts, setFilterContacts] = useState<contactInterface[]>(
+    []
+  );
 
   useEffect(() => {
     axios
-      .get("/contacts")
+      .post("/contacts", { id })
       .then((res) => {
         const newData = res.data.data;
         if (newData.length !== 0) {
@@ -27,84 +30,86 @@ const ListContacts = () => {
   }, []);
 
   //extra
-  useEffect(()=>{
-    const newFilteredContacts = data.filter((item)=>{
+  useEffect(() => {
+    const newFilteredContacts = data.filter((item) => {
       return item.name.toLocaleLowerCase().includes(searchField);
-      });
-      setFilterContacts(newFilteredContacts);
+    });
+    setFilterContacts(newFilteredContacts);
+  }, [data, searchField]);
 
-  },[data, searchField]);
-
-  const onSearchChange = (event:React.ChangeEvent<HTMLInputElement>)=>{
+  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchFieldString = event.target.value.toLocaleLowerCase();
     setSearchField(searchFieldString);
+  };
 
-  }
-
-  const deleteHandler = async (id:number)=>{
-    try{
-     const res = await axios.delete(`/contacts/${id}`);
-      if(res.status === 200){
+  const deleteHandler = async (id: number) => {
+    try {
+      const res = await axios.delete(`/contacts/${id}`);
+      if (res.status === 200) {
         window.location.reload();
       }
-
-    }catch(err){
+    } catch (err) {
       console.log(err);
-
     }
-
-
-  }
+  };
 
   return (
     <div>
-      <h1>CONTACT LISTS</h1>
+      <h1 className="list-title">CONTACT LISTS</h1>
       <div className="search-box">
-        <input  
-          className="search-input"       
-          type='search' 
-          placeholder='Search Contacts'
+        <input
+          className="search-input"
+          type="search"
+          placeholder="Search Contacts"
           onChange={onSearchChange}
-          />
-        </div>
-        <table style={{width: '100%', textAlign: 'center'}}>
-            <tr style={{height:'80px'}}>
-                <th>Photograph</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Delete</th>
-            </tr>
-            
+        />
+      </div>
+      <table style={{ width: "100%", textAlign: "center" }}>
+        <tr style={{ height: "80px" }}>
+          <th>Photograph</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
 
-      {filteredContacts.map((item: contactInterface) => {
-        return (
-            <tr key={item.id} style={{height:'80px'}}>
-                <td>
-                    <img src= {item.photograph} style={{width: '60px',height: '60px', borderRadius: '100%'}} alt={item.name} />
-                </td>
-                <td>
-                    {item.name} 
-                </td>
-                <td>
-                    {item.email}
-                </td>
-                <td>
-                    {item.address}
-                </td>
-                <td>
-                    {item.phone}
-                </td>
-                <td>
-                    <button style={{borderRadius: '10px', backgroundColor:'black', padding: '6px', cursor: 'pointer'}} 
-                      onClick={() => deleteHandler(item.id)}>
-                      Delete
-                    </button>
-                </td>
+        {filteredContacts.map((item: contactInterface) => {
+          return (
+            <tr key={item.id} style={{ height: "80px" }}>
+              <td>
+                <img
+                  src={item.photograph}
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    borderRadius: "100%",
+                  }}
+                  alt={item.name}
+                />
+              </td>
+              <td>{item.name}</td>
+              <td>{item.email}</td>
+              <td>{item.address}</td>
+              <td>{item.phone}</td>
+              <td>
+                <Link className="edit-btn" to={`/contacts/update/${item.id}`}>
+                  Edit
+                </Link>
+              </td>
+
+              <td>
+                <button
+                  className="delete-btn"
+                  onClick={() => deleteHandler(item.id)}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
-        );
-      })}
+          );
+        })}
       </table>
     </div>
   );

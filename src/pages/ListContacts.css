@@ -1,24 +1,46 @@
-table{
-    color: #ffffff;
+.list-title {
+  margin-top: 20px;
+  text-align: center;
 }
 
-table tr:nth-child(odd){
-    background-color: #2f3c4f;
+table {
+  color: #ffffff;
 }
 
-table tr:nth-child(even){
-    background-color: #506f86;
+table tr:nth-child(odd) {
+  background-color: #2f3c4f;
 }
 
-.search-box{
-   text-align: right;
-   margin: 10px 20px   
+table tr:nth-child(even) {
+  background-color: #506f86;
 }
 
-.search-input{
-    padding: 10px;
-    border: 2px solid grey;
-    border-radius: 8px;
-
+.search-box {
+  text-align: right;
+  margin: 10px 20px;
 }
 
+.search-input {
+  padding: 10px;
+  border: 2px solid grey;
+  border-radius: 8px;
+}
+
+.delete-btn {
+  border-radius: 10px;
+  background-color: black;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  color: red;
+}
+
+.edit-btn {
+  color: white;
+}
+
+.edit-btn:hover {
+  color: orange;
+}
